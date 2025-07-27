@@ -33,6 +33,6 @@ jobs:
       run: |
         ssh ${{ secrets.PRODUCTION_SERVER_USER }}@${{ secrets.PRODUCTION_SERVER_IP }} "
           cd /home/frappe/web &&
-          git pull origin main "
+          sudo git pull origin main "
 #         docker compose up -d --build
 #        "
