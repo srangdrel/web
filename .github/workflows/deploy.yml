@@ -29,10 +29,10 @@ jobs:
           "echo '✅ Connected to $(hostname)'"
     
     # 4. Deployment commands
- #   - name: Deploy application
- #    run: |
-#        ssh ${{ secrets.PRODUCTION_SERVER_USER }}@${{ secrets.PRODUCTION_SERVER_IP }} "
-#          cd /var/www/your-app &&
-#          git pull origin main &&
+    - name: Deploy application
+      run: |
+        ssh ${{ secrets.PRODUCTION_SERVER_USER }}@${{ secrets.PRODUCTION_SERVER_IP }} "
+          cd /home/frappe/web &&
+          git pull origin main 
 #         docker compose up -d --build
-#        "
+        "
