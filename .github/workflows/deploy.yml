@@ -19,6 +19,7 @@ jobs:
       uses: webfactory/ssh-agent@v0.7.0
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        ssh-passphrase: ${{ secrets.SSH_PASSPHRASE }}
     
     # 3. Test connection
     - name: Verify SSH access
@@ -28,10 +29,10 @@ jobs:
           "echo '✅ Connected to $(hostname)'"
     
     # 4. Deployment commands
-    - name: Deploy application
-      run: |
-        ssh ${{ secrets.PRODUCTION_SERVER_USER }}@${{ secrets.PRODUCTION_SERVER_IP }} "
-          cd /var/www/your-app &&
-          git pull origin main &&
-          docker compose up -d --build
-        "
+ #   - name: Deploy application
+ #    run: |
+#        ssh ${{ secrets.PRODUCTION_SERVER_USER }}@${{ secrets.PRODUCTION_SERVER_IP }} "
+#          cd /var/www/your-app &&
+#          git pull origin main &&
+#         docker compose up -d --build
+#        "
