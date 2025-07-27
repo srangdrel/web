@@ -16,10 +16,10 @@ jobs:
     
     # 2. Setup SSH
     - name: Add SSH Key
-      uses: shimataro/ssh-key-action@v2
+      uses: webfactory/ssh-agent@v0.7.0
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-        ssh-passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        
     
     # 3. Test connection
     - name: Verify SSH access
