@@ -8,37 +8,37 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
     # 1. Checkout code
     - name: Checkout repository
       uses: actions/checkout@v4
-    
+
     # 2. Setup SSH
     - name: Add SSH Key
       uses: webfactory/ssh-agent@v0.7.0
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-        
-    
-    # 3. Test connection
-    - name: Verify SSH access
+
+    # 3. Test connection to production server
+    - name: Verify SSH access to production
       run: |
         ssh -o StrictHostKeyChecking=no \
           ${{ secrets.PRODUCTION_SERVER_USER }}@${{ secrets.PRODUCTION_SERVER_IP }} \
           "echo '✅ Connected to $(hostname)'"
-    
+
     # 4. Deployment commands
     - name: Deploy application
       run: |
-        sudo apt-get update && sudo apt-get install -y sshpass
-        ssh ${{ secrets.PRODUCTION_SERVER_USER }}@${{ secrets.PRODUCTION_SERVER_IP }} "
-          cd /home/rubovc/web &&
-          git pull origin main "
-          sshpass -p '$INTERNAL_SSH_PASSWORD' ssh -o StrictHostKeyChecking=no rubovc@172.20.40.11 "
-            cd /home/rubovc/web &&
-            git pull origin main"
-
+        # Deploy to primary production server
+        ssh -o StrictHostKeyChecking=no \
+          ${{ secrets.PRODUCTION_SERVER_USER }}@${{ secrets.PRODUCTION_SERVER_IP }} \
+          "cd /home/rubovc/web && git pull origin main"
+        
+        # Deploy to internal server (using sshpass)
+        sshpass -p '$INTERNAL_SSH_PASSWORD' ssh -o StrictHostKeyChecking=no \
+          rubovc@172.20.40.11 \
+          "cd /home/rubovc/web && git pull origin main"
 
     env:
       INTERNAL_SSH_PASSWORD: ${{ secrets.INTERNAL_SSH_PASSWORD }}
