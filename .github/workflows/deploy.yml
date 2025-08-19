@@ -36,9 +36,7 @@ jobs:
           "cd /home/rubovc/web && git pull origin main"
         
         # Deploy to internal server (using sshpass)
-        sshpass -p '$INTERNAL_SSH_PASSWORD' ssh -o StrictHostKeyChecking=no \
-          rubovc@172.20.40.11 \
-          "cd /home/rubovc/web && git pull origin main"
+         "ssh -i /home/rubovc/key rubovc@172.20.40.11 \
+          'cd /home/rubovc/web && git pull origin main'"
 
-    env:
-      INTERNAL_SSH_PASSWORD: ${{ secrets.INTERNAL_SSH_PASSWORD }}
+    
