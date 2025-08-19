@@ -31,6 +31,7 @@ jobs:
     # 4. Deployment commands
     - name: Deploy application
       run: |
+        sudo apt-get update && sudo apt-get install -y sshpass
         ssh ${{ secrets.PRODUCTION_SERVER_USER }}@${{ secrets.PRODUCTION_SERVER_IP }} "
           cd /home/rubovc/web &&
           git pull origin main "
